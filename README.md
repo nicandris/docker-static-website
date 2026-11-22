@@ -11,7 +11,7 @@ Check the [Releases](https://github.com/nicandris/docker-static-website/releases
 
 ## Usage
 
-The image is hosted on [GitHub Container Registry](https://github.com/nicandris/docker-static-website/pkgs/container/docker-static-website) and comes with **linux/amd64**, **linux/arm64** and **linux/arm/v7** builds:
+The image is hosted on [GitHub Container Registry](https://github.com/nicandris/docker-static-website/pkgs/container/docker-static-website) and comes with **linux/amd64** and **linux/arm64** builds (arm/v7 was dropped in this fork):
 
 ```dockerfile
 FROM ghcr.io/nicandris/docker-static-website:latest

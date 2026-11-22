@@ -1,19 +1,20 @@
 # docker-static-website
 
-[![docker:lipanski/docker-static-website](https://img.shields.io/docker/v/lipanski/docker-static-website?logo=docker&label=lipanski%2Fdocker-static-website)](https://hub.docker.com/r/lipanski/docker-static-website/tags)
+> [!NOTE]
+> This is just a fork of [lipanski/docker-static-website](https://github.com/lipanski/docker-static-website) with updated libraries (BusyBox 1.38.0, latest Alpine build image, current GitHub Actions) and a checksum-verified BusyBox download. Images are published to GitHub Container Registry as `ghcr.io/nicandris/docker-static-website`, not Docker Hub. All credit for the original project goes to [@lipanski](https://github.com/lipanski).
 
 A very small Docker image (~80KB) to run any static website, based on the [BusyBox httpd](https://www.busybox.net/) static file server.
 
 For more details, check out [my article](https://lipanski.com/posts/smallest-docker-image-static-website).
 
-Check the [Releases](https://github.com/lipanski/docker-static-website/releases) page for new versions and breaking changes.
+Check the [Releases](https://github.com/nicandris/docker-static-website/releases) page for new versions and breaking changes.
 
 ## Usage
 
-The image is hosted on [Docker Hub](https://hub.docker.com/r/lipanski/docker-static-website/tags) and comes with **linux/amd64**, **linux/arm64** and **linux/arm/v7** builds:
+The image is hosted on [GitHub Container Registry](https://github.com/nicandris/docker-static-website/pkgs/container/docker-static-website) and comes with **linux/amd64**, **linux/arm64** and **linux/arm/v7** builds:
 
 ```dockerfile
-FROM lipanski/docker-static-website:latest
+FROM ghcr.io/nicandris/docker-static-website:latest
 
 # Copy your static files
 COPY . .
@@ -36,7 +37,7 @@ Browse to `http://localhost:3000`.
 If you need to configure the server in a different way, you can override the `CMD` line:
 
 ```dockerfile
-FROM lipanski/docker-static-website:latest
+FROM ghcr.io/nicandris/docker-static-website:latest
 
 # Copy your static files
 COPY . .
@@ -120,7 +121,7 @@ Create a `docker-compose.yml` file:
 version: "3.9"
 services:
   webserver:
-    image: lipanski/docker-static-website:latest
+    image: ghcr.io/nicandris/docker-static-website:latest
     restart: always
     ports:
       - "3000:3000"
@@ -159,7 +160,7 @@ Browse to `http://localhost:3000` and check that the contents of the `index.html
 
 ## Release
 
-Images are build automatically by Github Actions whenever a new tag is pushed:
+Images are built automatically by GitHub Actions and pushed to GHCR whenever a new tag is pushed:
 
 ```
 git tag 1.2.3
@@ -171,12 +172,12 @@ git push --tags
 Build the image:
 
 ```
-docker build -t lipanski/docker-static-website:1.2.3 -t lipanski/docker-static-website:latest .
+docker build -t ghcr.io/nicandris/docker-static-website:1.2.3 -t ghcr.io/nicandris/docker-static-website:latest .
 ```
 
-Push the image to Docker Hub:
+Push the image to GHCR (after `docker login ghcr.io`):
 
 ```
-docker push lipanski/docker-static-website:1.2.3
-docker push lipanski/docker-static-website:latest
+docker push ghcr.io/nicandris/docker-static-website:1.2.3
+docker push ghcr.io/nicandris/docker-static-website:latest
 ```

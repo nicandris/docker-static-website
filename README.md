@@ -160,7 +160,7 @@ Browse to `http://localhost:3000` and check that the contents of the `index.html
 
 ## Release
 
-Images are built automatically by GitHub Actions and pushed to GHCR whenever a new tag is pushed:
+Images are built automatically by GitHub Actions and pushed to GHCR on every push/merge to `master` (tagged `latest`, `busybox-<version>` and `sha-<commit>`). Pushing a git tag also publishes an image under that tag:
 
 ```
 git tag 1.2.3

@@ -2,6 +2,8 @@ name: publish
 
 on:
   push:
+    branches:
+      - master
     tags:
       - "*"
   workflow_dispatch:
@@ -33,12 +35,27 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Read BusyBox version
+        id: busybox
+        run: echo "version=$(sed -n 's/^ARG BUSYBOX_VERSION=//p' Dockerfile)" >> "$GITHUB_OUTPUT"
+
+      # master push -> latest, busybox-<ver>, sha-<short>; git tag push -> <tag>
+      - name: Image tags
+        id: meta
+        uses: docker/metadata-action@v6
+        with:
+          images: ${{ env.IMAGE }}
+          tags: |
+            type=ref,event=tag
+            type=raw,value=latest,enable={{is_default_branch}}
+            type=raw,value=busybox-${{ steps.busybox.outputs.version }},enable={{is_default_branch}}
+            type=sha
+
       - name: Publish
         uses: docker/build-push-action@v7
         with:
           file: Dockerfile
           push: true
           platforms: linux/amd64,linux/arm64,linux/arm/v7
-          tags: |
-            ${{ env.IMAGE }}:${{ github.ref_type == 'tag' && github.ref_name || github.sha }}
-            ${{ env.IMAGE }}:latest
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
